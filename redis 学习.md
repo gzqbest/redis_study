@@ -53,6 +53,51 @@ redis 比 mysql 查询快 ，基于内存，基于 key 查询，nosql 数据库 
         redis-cli -a password -p 6379
         # 关闭redis server
         redis-cli -a password SHUTDOWN -p
-        ~~~
 
- 
+ ### redis 十大数据类型
+
+#### 常用操作
+
+~~~shell
+keys * # 获取所有的key
+exists k1 # 判断k1 是否存在 1存在
+del k1 # 原子阻塞删除
+expire k1  3 # 设置超时时间
+help @type # 获取对应类型操作命令
+~~~
+
+
+
+#### string类型
+
+~~~shell
+set k1 hello;
+get k1
+> "hello"
+
+set k1 aa nx get ex 10 # nx 如果不存在，则创建; 如果存在则不修改
+set k1 cc xx get ex 20 # xx 如果存在，则只改键值
+
+expire k1 20
+set k1 bb keepttl # 保留之前的设置的过期时间
+
+## 设置多个键值对
+mset k1 v1 k2 v2
+msetnx k1 v1 k2 v2 (键不存在时才创建--整体，要么全部成功，要么全部失败)
+
+## 数字增减
+set k1 100
+incr k1
+incr k1 3 #跨的步伐 3
+decr k1 3
+
+## 获取字符串长度 或增加
+strlen k1 
+append k1 aaa
+## 分布式锁
+setnx k3 v1 # 不存在时创建
+setex k3 10(3) v2 # 
+~~~
+
+
+
